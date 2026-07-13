@@ -251,7 +251,6 @@ function Home() {
                     <h3 id="official-site-title">Official Site</h3>
                     <p>
                         Only trust the official site:
-                        <a className="official-link" href={settings?.officialSiteLink || "https://world-of-msd.vercel.app"} target="_blank" rel="noopener noreferrer"> {settings?.officialSiteLink?.replace(/^https?:\/\//, '') || "worldlofmsd.com"} </a>
                         and avoid the fake copycats.<br />
                         Always check URL for verification.
                     </p>

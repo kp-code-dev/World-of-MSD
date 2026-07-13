@@ -1,9 +1,4 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
-
-const MONGO_URL = process.env.MONGO_URL; 
-
-const gamesData = [
+export const gamesData = [
     {
         id: "gta-v",
         title: "Grand Theft Auto V",
@@ -127,35 +122,35 @@ const gamesData = [
         }
     },
     {
-        id: "slow-roads",
-        title: "Slow Roads",
-        keywords: ["driving", "simulation", "endless", "relaxing", "3d", "cars", "drift"],
-        image: "https://external-preview.redd.it/slow-roads-2-0-endless-procedurally-generated-landscapes-v0-YzZhaW5wZjk4ZGdlMdqz2w7Jv_vPhL3cjZBUeyHlYWqkJdAHUKVjIiK7GY1e.png?format=pjpg&auto=webp&s=17fe2d462dc01bbf9e2ecfecf26a865ccbee5ab7",
-        label: "Driving Simulation",
-        description: "Slow Roads is a casual endless driving game set in a procedurally generated world. There are no missions, no time limits, and no stress—just drive, listen to music, and enjoy the scenery.",
-        developer: "Anslo",
-        publisher: "Anslo (Indie)",
-        releaseDate: "October 2022",
-        size: "Web Version (No Install)",
-        screenshots: [
-            "https://slowroads.io/metadata/poster.jpg",
-            "https://img.itch.zone/aW1hZ2UvMTcyMzU3Ny8xMDEwNjY4MS5wbmc=/original/A%2BFA%2B%2B.png"
-        ],
-        minRequirements: {
-            os: "Web Browser (Chrome / Edge / Safari)",
-            processor: "Intel Core i3 / Ryzen 3",
-            memory: "4 GB RAM",
-            graphics: "Intel HD Graphics 4000 (WebGL 2.0)",
-            storage: "No install needed"
-        },
-        recRequirements: {
-            os: "Windows 10 / 11",
-            processor: "Intel Core i5 / Ryzen 5",
-            memory: "8 GB RAM",
-            graphics: "Nvidia GTX 1050 / AMD Radeon RX 560",
-            storage: "No install needed"
-        },
-        playUrl: "https://slowroads.io/"
+    id: "slow-roads",
+    title: "Slow Roads",
+    keywords: ["driving", "simulation", "endless", "relaxing", "3d", "cars", "drift"],
+    image: "https://external-preview.redd.it/slow-roads-2-0-endless-procedurally-generated-landscapes-v0-YzZhaW5wZjk4ZGdlMdqz2w7Jv_vPhL3cjZBUeyHlYWqkJdAHUKVjIiK7GY1e.png?format=pjpg&auto=webp&s=17fe2d462dc01bbf9e2ecfecf26a865ccbee5ab7",
+    label: "Driving Simulation",
+    description: "Slow Roads is a casual endless driving game set in a procedurally generated world. There are no missions, no time limits, and no stress—just drive, listen to music, and enjoy the scenery.",
+    developer: "Anslo",
+    publisher: "Anslo (Indie)",
+    releaseDate: "October 2022",
+    size: "Web Version (No Install)",
+    screenshots: [
+        "https://slowroads.io/metadata/poster.jpg",
+        "https://img.itch.zone/aW1hZ2UvMTcyMzU3Ny8xMDEwNjY4MS5wbmc=/original/A%2BFA%2B%2B.png"
+    ],
+    minRequirements: {
+        os: "Web Browser (Chrome / Edge / Safari)",
+        processor: "Intel Core i3 / Ryzen 3",
+        memory: "4 GB RAM",
+        graphics: "Intel HD Graphics 4000 (WebGL 2.0)",
+        storage: "No install needed"
+    },
+    recRequirements: {
+        os: "Windows 10 / 11",
+        processor: "Intel Core i5 / Ryzen 5",
+        memory: "8 GB RAM",
+        graphics: "Nvidia GTX 1050 / AMD Radeon RX 560",
+        storage: "No install needed"
+    },
+    playUrl: "https://slowroads.io/"
     },
     {
         id: "gta-vice-city",
@@ -493,200 +488,94 @@ const gamesData = [
         },
         playUrl: "https://cdpn.io/HunorMarton/fullpage/xxOMQKg"
     },
-    {
-        id: "chained-together",
-        title: "Chained Together",
-        keywords: ["co-op", "multiplayer", "climbing", "hell", "steam", "adventure", "funny"],
-        image: "https://deadline.com/wp-content/uploads/2025/11/Chained-Together-2.jpg",
-        label: "Co-op Adventure",
-        description: "Begin your journey in the depths of hell, chained to your companions. Your mission is to escape hell by climbing as high as possible. Coordination is key, as one wrong move can pull everyone down.",
-        developer: "Anegar Games",
-        publisher: "Anegar Games",
-        releaseDate: "June 2024",
-        size: "6 GB",
-        screenshots: [
-          "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2567810/ss_8e24443422616462744310576369527339174542.1920x1080.jpg",
-          "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2567810/ss_4953457904375005952467269167389104561023.1920x1080.jpg"
-        ],
-        minRequirements: {
-          os: "Windows 10/11",
-          processor: "Intel Core i5-6600",
-          memory: "8 GB RAM",
-          graphics: "NVIDIA GTX 1650",
-          storage: "6 GB space"
-        },
-        recRequirements: {
-          os: "Windows 10/11",
-          processor: "Intel Core i7-10700",
-          memory: "16 GB RAM",
-          graphics: "NVIDIA RTX 3060",
-          storage: "SSD Recommended"
-        },
-      },
-      {
-        id: "cricket-24",
-        title: "Cricket 24",
-        keywords: ["cricket", "sports", "ipl", "world cup", "big ant", "simulation", "india"],
-        image: "https://wallpapercave.com/wp/wp13644212.jpg",
-        label: "Sports Simulation",
-        description: "Cricket 24 is the culmination of a decade of Cricket video game development. It includes official teams like The Ashes, The Big Bash, and major Indian T20 teams. The most realistic cricket simulation ever.",
-        developer: "Big Ant Studios",
-        publisher: "Nacon",
-        releaseDate: "October 2023",
-        size: "60 GB",
-        screenshots: [
-          "https://images.pushsquare.com/5f8b5a004812a/cricket-24-ps5-playstation-5-1.900x.jpg",
-          "https://img.youtube.com/vi/8v_wz9X4gGc/maxresdefault.jpg"
-        ],
-        minRequirements: {
-          os: "Windows 10",
-          processor: "Intel Core i3-4000",
-          memory: "8 GB RAM",
-          graphics: "NVIDIA GTX 1050",
-          storage: "60 GB space"
-        },
-        recRequirements: {
-          os: "Windows 11",
-          processor: "Intel Core i5-11500",
-          memory: "16 GB RAM",
-          graphics: "NVIDIA RTX 3060",
-          storage: "SSD Required"
-        }
-      },
-      {
-        id: "pubg-pc",
-        title: "PUBG: BATTLEGROUNDS",
-        keywords: ["pubg", "battle royale", "shooter", "survival", "krafton", "multiplayer", "fps"],
-        image: "https://cdn1.epicgames.com/spt-assets/53ec4985296b4facbe3a8d8d019afba9/pubg-battlegrounds-16v1j.jpg",
-        label: "Battle Royale",
-        description: "Land on strategic locations, loot weapons and supplies, and survive to become the last team standing across various distinct battlegrounds. The original Battle Royale experience.",
-        developer: "KRAFTON, Inc.",
-        publisher: "KRAFTON, Inc.",
-        releaseDate: "December 2017",
-        size: "40 GB",
-        screenshots: [
-          "https://cdn.akamai.steamstatic.com/steam/apps/578080/ss_8e24443422616462744310576369527339174542.1920x1080.jpg",
-          "https://cdn.akamai.steamstatic.com/steam/apps/578080/ss_4953457904375005952467269167389104561023.1920x1080.jpg"
-        ],
-        minRequirements: {
-          os: "Windows 10",
-          processor: "Intel Core i5-4430 / AMD FX-6300",
-          memory: "8 GB RAM",
-          graphics: "NVIDIA GTX 960 2GB / AMD R7 370 2GB",
-          storage: "40 GB space"
-        },
-        recRequirements: {
-          os: "Windows 10/11",
-          processor: "Intel Core i5-6600K / AMD Ryzen 5 1600",
-          memory: "16 GB RAM",
-          graphics: "NVIDIA GTX 1060 3GB / AMD RX 580 4GB",
-          storage: "50 GB space"
-        }
-    }
-];
-
-// 3. Slides Data
-const slidesData = [
-    {
-        image: "https://cdn.wallpapersafari.com/92/89/S1KxLt.jpg",
-        link: "/games/gta-v"
-    },
-    {
-        image: "https://i.redd.it/close-enough-fh1-poster-in-fh5-recreation-v0-up1vdl62iy6e1.jpg?width=3839&format=pjpg&auto=webp&s=81849191446c232b6e2c3b8753af7d57d13161d3",
-        link: "/games/forza-horizon-5"
-    },
-    {
-        image: "https://i.ytimg.com/vi/EYqgWkHy_tk/maxresdefault.jpg",
-        link: "/games/chained-together"
-    },
-    {
-        image: "https://wallpapercave.com/wp/wp13644261.jpg",
-        link: "/games/cricket-24"
-    },
-    {
-        image: "https://cdn1.epicgames.com/spt-assets/53ec4985296b4facbe3a8d8d019afba9/pubg-battlegrounds-16v1j.jpg",
-        link: "/games/pubg-pc"
-    }
-];
-
-// SCHEMAS (Database Structure)
-
-// Game Schema
-const gameSchema = new mongoose.Schema({
-    id: String,
-    title: String,
-    keywords: [String],
-    image: String,
-    label: String,
-    description: String,
-    developer: String,
-    publisher: String,
-    releaseDate: String,
-    size: String,
-    screenshots: [String],
-    playUrl: String, // Optional field for web games
+  {
+    id: "chained-together",
+    title: "Chained Together",
+    keywords: ["co-op", "multiplayer", "climbing", "hell", "steam", "adventure", "funny"],
+    image: "https://deadline.com/wp-content/uploads/2025/11/Chained-Together-2.jpg",
+    label: "Co-op Adventure",
+    description: "Begin your journey in the depths of hell, chained to your companions. Your mission is to escape hell by climbing as high as possible. Coordination is key, as one wrong move can pull everyone down.",
+    developer: "Anegar Games",
+    publisher: "Anegar Games",
+    releaseDate: "June 2024",
+    size: "6 GB",
+    screenshots: [
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2567810/ss_8e24443422616462744310576369527339174542.1920x1080.jpg",
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2567810/ss_4953457904375005952467269167389104561023.1920x1080.jpg"
+    ],
     minRequirements: {
-        os: String,
-        processor: String,
-        memory: String,
-        graphics: String,
-        storage: String
+      os: "Windows 10/11",
+      processor: "Intel Core i5-6600",
+      memory: "8 GB RAM",
+      graphics: "NVIDIA GTX 1650",
+      storage: "6 GB space"
     },
     recRequirements: {
-        os: String,
-        processor: String,
-        memory: String,
-        graphics: String,
-        storage: String
+      os: "Windows 10/11",
+      processor: "Intel Core i7-10700",
+      memory: "16 GB RAM",
+      graphics: "NVIDIA RTX 3060",
+      storage: "SSD Recommended"
+    },
+  },
+  {
+    id: "cricket-24",
+    title: "Cricket 24",
+    keywords: ["cricket", "sports", "ipl", "world cup", "big ant", "simulation", "india"],
+    image: "https://wallpapercave.com/wp/wp13644212.jpg",
+    label: "Sports Simulation",
+    description: "Cricket 24 is the culmination of a decade of Cricket video game development. It includes official teams like The Ashes, The Big Bash, and major Indian T20 teams. The most realistic cricket simulation ever.",
+    developer: "Big Ant Studios",
+    publisher: "Nacon",
+    releaseDate: "October 2023",
+    size: "60 GB",
+    screenshots: [
+      "https://images.pushsquare.com/5f8b5a004812a/cricket-24-ps5-playstation-5-1.900x.jpg",
+      "https://img.youtube.com/vi/8v_wz9X4gGc/maxresdefault.jpg"
+    ],
+    minRequirements: {
+      os: "Windows 10",
+      processor: "Intel Core i3-4000",
+      memory: "8 GB RAM",
+      graphics: "NVIDIA GTX 1050",
+      storage: "60 GB space"
+    },
+    recRequirements: {
+      os: "Windows 11",
+      processor: "Intel Core i5-11500",
+      memory: "16 GB RAM",
+      graphics: "NVIDIA RTX 3060",
+      storage: "SSD Required"
     }
-});
-
-// Slide Schema (Updated for your data)
-const slideSchema = new mongoose.Schema({
-    image: String,
-    link: String
-});
-
-// Models
-const Game = mongoose.model('Game', gameSchema);
-const Slide = mongoose.model('Slide', slideSchema);
-
-
-// ==========================================
-// SEED FUNCTION
-// ==========================================
-const seedDB = async () => {
-    try {
-        await mongoose.connect(MONGO_URL);
-        console.log("✅ Connected to Database!");
-
-        // 1. Clear old data
-        await Game.deleteMany({});
-        console.log("🗑️  Old Games removed.");
-        
-        await Slide.deleteMany({});
-        console.log("🗑️  Old Slides removed.");
-
-        // 2. Insert New Data
-        await Game.insertMany(gamesData);
-        console.log(`🚀 Added ${gamesData.length} Games.`);
-
-        if (slidesData.length > 0) {
-            await Slide.insertMany(slidesData);
-            console.log(`🚀 Added ${slidesData.length} Slides.`);
-        } else {
-            console.log("⚠️  No Slides data found (skipping slides).");
-        }
-        
-        console.log("✨ All Data Seeded Successfully!");
-
-    } catch (err) {
-        console.log("❌ Error:", err);
-    } finally {
-        mongoose.connection.close();
-        console.log("👋 Connection Closed.");
+  },
+  {
+    id: "pubg-pc",
+    title: "PUBG: BATTLEGROUNDS",
+    keywords: ["pubg", "battle royale", "shooter", "survival", "krafton", "multiplayer", "fps"],
+    image: "https://cdn1.epicgames.com/spt-assets/53ec4985296b4facbe3a8d8d019afba9/pubg-battlegrounds-16v1j.jpg",
+    label: "Battle Royale",
+    description: "Land on strategic locations, loot weapons and supplies, and survive to become the last team standing across various distinct battlegrounds. The original Battle Royale experience.",
+    developer: "KRAFTON, Inc.",
+    publisher: "KRAFTON, Inc.",
+    releaseDate: "December 2017",
+    size: "40 GB",
+    screenshots: [
+      "https://cdn.akamai.steamstatic.com/steam/apps/578080/ss_8e24443422616462744310576369527339174542.1920x1080.jpg",
+      "https://cdn.akamai.steamstatic.com/steam/apps/578080/ss_4953457904375005952467269167389104561023.1920x1080.jpg"
+    ],
+    minRequirements: {
+      os: "Windows 10",
+      processor: "Intel Core i5-4430 / AMD FX-6300",
+      memory: "8 GB RAM",
+      graphics: "NVIDIA GTX 960 2GB / AMD R7 370 2GB",
+      storage: "40 GB space"
+    },
+    recRequirements: {
+      os: "Windows 10/11",
+      processor: "Intel Core i5-6600K / AMD Ryzen 5 1600",
+      memory: "16 GB RAM",
+      graphics: "NVIDIA GTX 1060 3GB / AMD RX 580 4GB",
+      storage: "50 GB space"
     }
-};
-
-// Run the function
-seedDB();
+  }
+];

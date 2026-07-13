@@ -4,8 +4,6 @@ import './App.css';
 import './Styles/ContentPages.css';
 import ProtectedRoute from './Components/ProtectedRoute';
 import ScrollToTop from './Components/ScrollToTop';
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // Standard imports instead of lazy loading to prevent annoying flickering for small app
 import Home from './Pages/Home';
@@ -56,8 +54,6 @@ function App() {
                 } />
             </Routes>
             <ScrollToTop />
-            <Analytics />
-            <SpeedInsights />
         </>
     )
 }
