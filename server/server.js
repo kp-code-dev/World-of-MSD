@@ -15,7 +15,11 @@ const JWT_SECRET = process.env.JWT_SECRET || "worldofmsd_super_secret_key_123"; 
 
 // Middleware
 app.use(compression());
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
