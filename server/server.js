@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const fs = require("fs");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
@@ -19,43 +20,63 @@ app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ==========================================
-// 1. DATA INITIALIZATION
+// 1. DATABASE CONNECTION
 // ==========================================
-let games = [];
-let slides = [];
-let settings = {
-  id: "global",
-  logoUrl: "", 
-  faviconUrl: "",
-  ourGoalText: "No Doubt everyone loves free games of any platform.\nWorld of MSD is the arena for free games, it allows you\nto download all your favorite games completely free.",
-  officialSiteLink: "https://worldlofmsd.com",
-  facebookLink: "https://www.facebook.com/thala.07.msd",
-  instagramLink: "https://www.instagram.com/thala07_m.s.d",
-  telegramLink: "https://t.me/kalpesh_mevada_05",
-  youtubeLink: "https://www.youtube.com/@thala_07-msd"
-};
+const MONGO_URL = process.env.MONGO_URL;
 
-try {
-  const gamesContent = fs.readFileSync(path.join(__dirname, 'data/games.js'), 'utf8');
-  const gamesMatch = gamesContent.match(/export const gamesData = (\[[\s\S]*\]);/);
-  if (gamesMatch) {
-    games = new Function('return ' + gamesMatch[1])();
-  }
-} catch (e) {
-  console.log("Error loading games.js:", e.message);
+if (MONGO_URL && MONGO_URL.includes("mongodb+srv://")) {
+  mongoose
+    .connect(MONGO_URL)
+    .then(() => console.log("✅ Server Connected to MongoDB!"))
+    .catch((err) => console.log("❌ Connection Error:", err.message));
+} else {
+  console.log("⚠️ MONGO_URL not set properly in .env, skipping connection.");
 }
 
-try {
-  const slidesContent = fs.readFileSync(path.join(__dirname, 'data/slides.js'), 'utf8');
-  const slidesMatch = slidesContent.match(/export const slides = (\[[\s\S]*\]);/);
-  if (slidesMatch) {
-    slides = new Function('return ' + slidesMatch[1])();
-    // Add dummy _id for React frontend which expects MongoDB ObjectIDs
-    slides = slides.map((s, i) => ({ ...s, _id: Date.now().toString() + i }));
-  }
-} catch (e) {
-  console.log("Error loading slides.js:", e.message);
-}
+// ==========================================
+// 2. SCHEMAS (Database Structure)
+// ==========================================
+const gameSchema = new mongoose.Schema({
+  id: String,
+  title: String,
+  keywords: [String],
+  image: String,
+  label: String,
+  description: String,
+  developer: String,
+  publisher: String,
+  releaseDate: String,
+  size: String,
+  downloadUrl: String,
+  screenshots: [String],
+  playUrl: String,
+  minRequirements: Object,
+  recRequirements: Object,
+});
+
+gameSchema.index({ id: 1 });
+gameSchema.index({ title: 'text', keywords: 'text' });
+
+const slideSchema = new mongoose.Schema({
+  image: String,
+  link: String,
+});
+
+const settingSchema = new mongoose.Schema({
+  id: { type: String, default: "global" },
+  logoUrl: String,
+  faviconUrl: String,
+  ourGoalText: String,
+  officialSiteLink: String,
+  facebookLink: String,
+  instagramLink: String,
+  telegramLink: String,
+  youtubeLink: String,
+});
+
+const Game = mongoose.model("Game", gameSchema);
+const Slide = mongoose.model("Slide", slideSchema);
+const Setting = mongoose.model("Setting", settingSchema);
 
 // ==========================================
 // 3. API ROUTES
@@ -94,45 +115,68 @@ app.post("/api/login", (req, res) => {
 });
 
 // Route 1: Get all games
-app.get("/api/games", (req, res) => {
-  res.json(games);
-});
-
-// Route 3:
-app.get("/api/games/:id", (req, res) => {
-  const game = games.find(g => g.id === req.params.id);
-  if (game) {
-    res.json(game);
-  } else {
-    res.status(404).json({ message: "Game not found" });
+app.get("/api/games", async (req, res) => {
+  try {
+    const games = await Game.find();
+    res.json(games);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-app.post("/api/games", authenticateToken, (req, res) => {
-  const newGame = req.body;
-  games.push(newGame);
-  res.status(201).json(newGame);
+// Route 3:
+app.get("/api/games/:id", async (req, res) => {
+  try {
+    const game = await Game.findOne({ id: req.params.id });
+    if (game) {
+      res.json(game);
+    } else {
+      res.status(404).json({ message: "Game not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/games", authenticateToken, async (req, res) => {
+  try {
+    const newGame = new Game(req.body);
+    const savedGame = await newGame.save();
+    res.status(201).json(savedGame);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 // Route: Update an existing game
-app.put("/api/games/:id", authenticateToken, (req, res) => {
-  const index = games.findIndex(g => g.id === req.params.id);
-  if (index !== -1) {
-    games[index] = { ...games[index], ...req.body };
-    res.json(games[index]);
-  } else {
-    res.status(404).json({ message: "Game not found" });
+app.put("/api/games/:id", authenticateToken, async (req, res) => {
+  try {
+    const updatedGame = await Game.findOneAndUpdate(
+      { id: req.params.id },
+      req.body,
+      { new: true }
+    );
+    if (updatedGame) {
+      res.json(updatedGame);
+    } else {
+      res.status(404).json({ message: "Game not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
 // Route: Delete a game
-app.delete("/api/games/:id", authenticateToken, (req, res) => {
-  const index = games.findIndex(g => g.id === req.params.id);
-  if (index !== -1) {
-    games.splice(index, 1);
-    res.json({ message: "Game deleted successfully!" });
-  } else {
-    res.status(404).json({ message: "Game not found" });
+app.delete("/api/games/:id", authenticateToken, async (req, res) => {
+  try {
+    const deletedGame = await Game.findOneAndDelete({ id: req.params.id });
+    if (deletedGame) {
+      res.json({ message: "Game deleted successfully!" });
+    } else {
+      res.status(404).json({ message: "Game not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -141,49 +185,87 @@ app.delete("/api/games/:id", authenticateToken, (req, res) => {
 // ==========================================
 
 // Route: Get slides
-app.get('/api/slides', (req, res) => {
-    res.json(slides);
+app.get('/api/slides', async (req, res) => {
+    try {
+        const slides = await Slide.find();
+        res.json(slides);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Route: Add a slide
-app.post('/api/slides', authenticateToken, (req, res) => {
-    const newSlide = req.body;
-    newSlide._id = Date.now().toString(); // dummy _id
-    slides.push(newSlide);
-    res.status(201).json(newSlide);
+app.post('/api/slides', authenticateToken, async (req, res) => {
+    try {
+        const newSlide = new Slide(req.body);
+        const savedSlide = await newSlide.save();
+        res.status(201).json(savedSlide);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
 });
 
 // Route: Update a slide
-app.put('/api/slides/:id', authenticateToken, (req, res) => {
-    const index = slides.findIndex(s => s._id === req.params.id);
-    if (index !== -1) {
-        slides[index] = { ...slides[index], ...req.body };
-        res.json(slides[index]);
-    } else {
-        res.status(404).json({ message: "Slide not found" });
+app.put('/api/slides/:id', authenticateToken, async (req, res) => {
+    try {
+        const updatedSlide = await Slide.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (updatedSlide) {
+            res.json(updatedSlide);
+        } else {
+            res.status(404).json({ message: "Slide not found" });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 
 // Route: Delete a slide
-app.delete('/api/slides/:id', authenticateToken, (req, res) => {
-    const index = slides.findIndex(s => s._id === req.params.id);
-    if (index !== -1) {
-        slides.splice(index, 1);
+app.delete('/api/slides/:id', authenticateToken, async (req, res) => {
+    try {
+        await Slide.findByIdAndDelete(req.params.id);
         res.json({ message: "Slide deleted successfully!" });
-    } else {
-        res.status(404).json({ message: "Slide not found" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 
 // Route: Get Settings
-app.get('/api/settings', (req, res) => {
-    res.json(settings);
+app.get('/api/settings', async (req, res) => {
+    try {
+        let settingsData = await Setting.findOne({ id: "global" });
+        if (!settingsData) {
+            // Default settings
+            settingsData = new Setting({
+                id: "global",
+                logoUrl: "", 
+                faviconUrl: "",
+                ourGoalText: "No Doubt everyone loves free games of any platform.\nWorld of MSD is the arena for free games, it allows you\nto download all your favorite games completely free.",
+                officialSiteLink: "https://worldlofmsd.com",
+                facebookLink: "https://www.facebook.com/thala.07.msd",
+                instagramLink: "https://www.instagram.com/thala07_m.s.d",
+                telegramLink: "https://t.me/kalpesh_mevada_05",
+                youtubeLink: "https://www.youtube.com/@thala_07-msd"
+            });
+            await settingsData.save();
+        }
+        res.json(settingsData);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Route: Update Settings
-app.put('/api/settings', authenticateToken, (req, res) => {
-    settings = { ...settings, ...req.body };
-    res.json(settings);
+app.put('/api/settings', authenticateToken, async (req, res) => {
+    try {
+        const updatedSettings = await Setting.findOneAndUpdate(
+            { id: "global" }, 
+            req.body, 
+            { new: true, upsert: true }
+        );
+        res.json(updatedSettings);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Configure Multer for File Uploads
