@@ -118,6 +118,11 @@ app.post("/api/login", (req, res) => {
   }
 });
 
+// Health Check Route
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok", message: "World of MSD Backend is running perfectly!" });
+});
+
 // Route 1: Get all games
 app.get("/api/games", async (req, res) => {
   try {
