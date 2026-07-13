@@ -29,7 +29,7 @@ const AdminSlides = () => {
         const token = localStorage.getItem('adminToken');
         
         try {
-            const url = editMode ? `/api/slides/${editId}` : '/api/slides';
+            const url = editMode ? `${process.env.REACT_APP_API_URL || ''}/api/slides/${editId}` : `${process.env.REACT_APP_API_URL || ''}/api/slides`;
             const method = editMode ? 'PUT' : 'POST';
 
             const res = await fetch(url, {
