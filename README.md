@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# World of MSD 🎮
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+World of MSD is a full-stack gaming database platform where users can browse, search, and discover games, while administrators can manage the content through a secure dashboard.
 
-## Available Scripts
+## 🌟 Features
+- **Public Dashboard:** Browse games, view detailed system requirements, and see image sliders.
+- **Search & Filter:** Instantly filter games by name or keyword.
+- **Admin Panel:** Securely login to add, edit, or delete games and slides.
+- **Dynamic Settings:** Administrators can update the site logo, favicon, and title dynamically without touching the code.
+- **Cloud Database:** Data is securely stored and retrieved using MongoDB Atlas.
 
-In the project directory, you can run:
+## 🏗️ Architecture
+This project is built using a modern **Monorepo** structure, separating the frontend and backend into two distinct directories to allow for separate hosting and scaling.
 
-### `npm start`
+- `/client` - The Frontend (React)
+- `/server` - The Backend (Node.js/Express)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🛠️ Tech Stack
+- **Frontend:** React, React Router, TailwindCSS (or custom CSS)
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB (with Mongoose)
+- **Authentication:** JSON Web Tokens (JWT)
+- **Deployment:** Vercel (Frontend), Render/Railway (Backend)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Getting Started Locally
 
-### `npm test`
+### 1. Prerequisites
+- Node.js (v14 or higher)
+- A MongoDB Atlas connection string (or local MongoDB)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2. Installation
+Run the following command in the root directory to install dependencies for **both** the client and the server simultaneously:
+```bash
+npm install
+```
 
-### `npm run build`
+### 3. Environment Variables
+You need to set up two `.env` files:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Backend (`server/.env`):**
+```env
+MONGO_URL=your_mongodb_connection_string
+JWT_SECRET=your_super_secret_key
+FRONTEND_URL=http://localhost:3000
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Frontend (`client/.env`):**
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+*(Note: If you are on Mac, also add `HOST=localhost` to prevent port EPERM issues).*
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 4. Running the App
+From the root directory, start both the frontend and backend with a single command:
+```bash
+npm start
+```
+- The React Frontend will start on `http://localhost:3000`
+- The Express Backend will start on `http://localhost:5000`
 
-### `npm run eject`
+## ☁️ Deployment Guide
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This repository is designed to be split-deployed across two free-tier cloud providers.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Frontend (Vercel or Netlify)
+1. Import the repository.
+2. Set the **Root Directory** to `client`.
+3. Build Command: `npm run build`
+4. Output Directory: `build`
+5. Add the `REACT_APP_API_URL` environment variable pointing to your deployed backend.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Backend (Render or Railway)
+1. Import the repository.
+2. Set the **Root Directory** to `server`.
+3. Build Command: `npm install`
+4. Start Command: `node server.js`
+5. Add your `MONGO_URL`, `JWT_SECRET`, and `FRONTEND_URL` (pointing to your Vercel deployment) in the Environment Variables section.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+*Created and maintained by Kalpesh Mevada.*
