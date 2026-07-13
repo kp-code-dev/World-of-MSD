@@ -16,7 +16,7 @@ const AdminSettings = () => {
     useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const res = await fetch('/api/settings');
+                const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/settings`);
                 const data = await res.json();
                 if (data) setSettings(data);
             } catch (error) {
@@ -35,7 +35,7 @@ const AdminSettings = () => {
         e.preventDefault();
         const token = localStorage.getItem('adminToken');
         try {
-            const res = await fetch('/api/settings', {
+            const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/settings`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(settings)

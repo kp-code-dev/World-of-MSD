@@ -13,7 +13,7 @@ function Header({ onSearch }) {
 
     // Fetch settings on mount
     useEffect(() => {
-        fetch('/api/settings')
+        fetch(`${process.env.REACT_APP_API_URL || ''}/api/settings`)
             .then(res => res.json())
             .then(data => {
                 if (data && data.logoUrl && data.logoUrl.trim() !== '' && data.logoUrl !== 'logo.png') {

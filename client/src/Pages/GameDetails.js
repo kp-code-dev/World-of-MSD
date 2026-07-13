@@ -15,7 +15,7 @@ function GameDetails() {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        fetch(`/api/games/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL || ''}/api/games/${id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Game not found");

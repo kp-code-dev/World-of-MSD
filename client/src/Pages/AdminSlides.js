@@ -14,7 +14,7 @@ const AdminSlides = () => {
 
     const fetchSlides = async () => {
         try {
-            const res = await fetch('/api/slides');
+            const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/slides`);
             const data = await res.json();
             setSlides(data);
         } catch (error) {
@@ -65,7 +65,7 @@ const AdminSlides = () => {
 
         const token = localStorage.getItem('adminToken');
         try {
-            const res = await fetch(`/api/slides/${id}`, {
+            const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/slides/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

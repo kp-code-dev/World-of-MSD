@@ -15,7 +15,7 @@ const EditGame = ({ gameId, onBack }) => {
 
     const fetchGameData = async () => {
         try {
-            const res = await fetch(`/api/games/${gameId}`);
+            const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/games/${gameId}`);
             const data = await res.json();
             if(data) {
                 setFormData({
@@ -47,7 +47,7 @@ const EditGame = ({ gameId, onBack }) => {
         };
 
         try {
-            const res = await fetch(`/api/games/${gameId}`, {
+            const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/games/${gameId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(finalData)

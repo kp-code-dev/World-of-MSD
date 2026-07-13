@@ -24,7 +24,7 @@ const AddGame = ({ onBack }) => {
         };
 
         try {
-            const res = await fetch('/api/games', {
+            const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/games`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(finalData)

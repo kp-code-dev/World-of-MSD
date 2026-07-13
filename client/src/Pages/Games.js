@@ -11,7 +11,7 @@ function Games() {
     const location = useLocation();
 
     useEffect(() => {
-        fetch('/api/games')
+        fetch(`${process.env.REACT_APP_API_URL || ''}/api/games`)
             .then(response => response.json())
             .then(data => {
                 setGames(data);

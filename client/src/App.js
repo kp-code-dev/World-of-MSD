@@ -19,7 +19,7 @@ import AdminDashboard from './Pages/AdminDashboard';
 
 function App() {
     useEffect(() => {
-        fetch('/api/settings')
+        fetch(`${process.env.REACT_APP_API_URL || ''}/api/settings`)
             .then(res => res.json())
             .then(data => {
                 if (data && data.faviconUrl) {

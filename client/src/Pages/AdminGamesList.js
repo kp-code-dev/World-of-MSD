@@ -11,7 +11,7 @@ const AdminGamesList = ({ onEdit, onAddNew }) => {
 
     const fetchGames = async () => {
         try {
-            const res = await fetch('/api/games');
+            const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/games`);
             const data = await res.json();
             setGames(data);
         } catch (error) {
@@ -24,7 +24,7 @@ const AdminGamesList = ({ onEdit, onAddNew }) => {
 
         const token = localStorage.getItem('adminToken');
         try {
-            const res = await fetch(`/api/games/${id}`, {
+            const res = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/games/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

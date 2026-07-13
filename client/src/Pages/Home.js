@@ -133,17 +133,17 @@ function Home() {
     const [settings, setSettings] = useState(null);
 
     useEffect(() => {
-        fetch('/api/slides')
+        fetch(`${process.env.REACT_APP_API_URL || ''}/api/slides`)
             .then(res => res.json())
             .then(data => setSlides(data))
             .catch(err => console.error("Error loading slides:", err));
 
-        fetch('/api/games')
+        fetch(`${process.env.REACT_APP_API_URL || ''}/api/games`)
             .then(res => res.json())
             .then(data => setGames(data))
             .catch(err => console.error("Error loading games:", err));
 
-        fetch('/api/settings')
+        fetch(`${process.env.REACT_APP_API_URL || ''}/api/settings`)
             .then(res => res.json())
             .then(data => setSettings(data))
             .catch(err => console.error("Error loading settings:", err));
